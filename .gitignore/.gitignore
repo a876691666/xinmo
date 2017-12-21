@@ -1,0 +1,16 @@
+.DS_Store
+.idea
+.vscode
+node_modules
+business UI
+business_admin UI
+chuangkit2.0/dev/page/*/build
+chuangkit/activity
+error/
+dist/
+distmobile/
+distheadless/
+npm-debug.log*
+*.swp
+design/debug.log
+yarn.*

@@ -1,32 +1,41 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+// 主页
 import index from '@/components/index/index'
+
+// 订单管理
 import sectionOne from '@/components/sectionOne/sectionOne'
+// 订单详情-共好代码
 import order from '@/components/order/order'
 import dfh from '@/components/order/dfh'
 import sh from '@/components/order/sh'
 import shxq from '@/components/order/shxq'
+
+// 会员管理
 import vip from '@/components/vip/vip'
 import vipDetail from '@/components/vip/vipDetail'
-import cssCommon from '@/components/cssCommon/cssCommon'
-import hot from '@/components/others/hot'
-import addMerchant from '@/components/merchant/addMerchant'
+
+// 权限管理
 import power from '@/components/power/power'
 import addadmin from '@/components/power/addadmin'
 import adminTeam from '@/components/power/adminTeam'
 import addTeam from '@/components/power/addTeam'
+
+// 其他管理
+import hot from '@/components/others/hot'
 import addHot from '@/components/others/addHot'
 import edition from '@/components/others/edition'
 import feedback from '@/components/others/feedback'
 import startImg from '@/components/others/startImg'
+
+// 内容管理
 import manageInfo from '@/components/manageInfo/manageInfo'
 import addConsult from '@/components/manageInfo/addConsult'
 import infoClass from '@/components/manageInfo/infoClass'
 import addClass from '@/components/manageInfo/addClass'
 import adimg from '@/components/manageInfo/adimg'
 import addimg from '@/components/manageInfo/addimg'
-import commentGoods from '@/components/comment/commentGoods'
-import commentInfo from '@/components/comment/commentInfo'
 
 Vue.use(Router);
 
@@ -93,19 +102,9 @@ export default new Router({
       component: addClass
     },
      {
-      path: '/cssCommon',
-      name: 'cssCommon',
-      component: cssCommon
-    },
-     {
       path: '/hot',
       name: 'hot',
       component: hot
-    },
-    {
-      path: '/addMerchant/:id/:oper',
-      name: 'addMerchant',
-      component: addMerchant
     },
     {
       path: '/adimg',

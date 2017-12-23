@@ -85,10 +85,13 @@
 
           <el-submenu v-if="qxgl" index="7">
             <template slot="title">
+              <a class="routerLink">权限管理</a>
+            </template>
+            <el-menu-item index="7-1" class="se">
               <router-link class="routerLink"
                            to="/power">权限管理
               </router-link>
-            </template>
+            </el-menu-item>
             <el-menu-item index="7-2" class="se">
               <router-link class="routerLink"
                            to="/adminTeam">管理员组

@@ -2,32 +2,25 @@
   <div>
     <el-form label-width="120px" label-position="left">
       <el-form-item label="管理组名称" style="width:30%">
-        <el-input v-model="name"></el-input>
+        <el-input v-model="group_name"></el-input>
       </el-form-item>
       <el-form-item label="管理组介绍" style="width:30%">
-        <el-input type="textarea" v-model="info"></el-input>
+        <el-input type="textarea" v-model="description"></el-input>
       </el-form-item>
-      <el-form-item label="是否可用" style="width:30%">
-        <el-radio class="radio" v-model="radio" label="0">
-          不可用
-        </el-radio>
-        <el-radio class="radio" v-model="radio" label="1">
-          可用
-        </el-radio>
-      </el-form-item>
-      <el-form-item label="活动性质">
-        <el-checkbox-group v-model="type"
-                           v-for="(item,index) in checkArr">
-          <el-checkbox :label="item.id" name="type"
-                       style="display: inline-block;width: 25%">
-            {{item.menu_name}}
-          </el-checkbox>
-        </el-checkbox-group>
+      <el-form-item label="权限">
+        <el-row>
+          <el-col :span="6" v-for="(item,index) in checkArr">
+            <el-checkbox :label="item.id" name="type"
+                         style="display: inline-block;width: 25%" v-model="authorities[index]">
+              {{item.privilege}}
+            </el-checkbox>
+          </el-col>
+        </el-row>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="save">保存
         </el-button>
-        <el-button type="danger">删除</el-button>
+        <el-button type="danger" v-if="id" @click="deleteTeam">删除</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -38,28 +31,30 @@
     name: "addTeam",
     data() {
       return {
-        id: 0,
+        id: this.$route.params.id,
         radio: '',
-        name: '',
-        info: '',
-        type: [],
+        group_name: '',
+        description: '',
+        authorities: [],
         checkArr: []
       }
     },
     created(){
       let _this = this;
-      _this.postFetch('/admin/sys/getSysMenuList', {}, function (data) {
+      _this.postFetch('/admin/admingroup/authoritylist', {}, function (data) {
         _this.checkArr = data.data;
       });
-      if (this.$route.params.id != 'add') {
-        _this.postFetch('/admin/sys/getSysGroupDetail', {
+      if (this.$route.name == 'editTeam') {
+        _this.postFetch('/admin/admingroup/detail', {
           group_id: _this.$route.params.id
         }, function (data) {
-          _this.id = data.data.id;
-          _this.name = data.data.name;
-          _this.radio = '' + data.data.status + '';
-          _this.type = data.data.menu_id_array;
-          _this.info = data.data.discription;
+          data = data.data;
+          // _this.id = data.id;
+          _this.group_name = data.group_name;
+          _this.description = data.data.description;
+          _this.authorities = [];
+          let authorities = data.authorities.split(',');
+          for(var i in authorities) _this.authorities[authorities[i]] = true;
         })
       }
     },
@@ -71,31 +66,59 @@
     methods: {
       save(){
         let _this = this;
+        let authorities = [];
+        for(var i in _this.authorities) if(_this.authorities[i]) authorities.push(i);
         let obj = {
-          status: _this.radio,
-          name: _this.name,
-          discription: _this.info,
-          menu_id_array: _this.type,
-          id: _this.id,
-          token: _this.userData.token
+          id:_this.$route.params.id,
+          group_name:_this.group_name,
+          authorities:authorities,
+          description:_this.description
         };
-        $.ajax({
-          url: 'http://chenchengonghao.com/admin/sys/saveAdminGroup',
-          type: 'post',
-          data: obj, success: function (data) {
-            if (data.error_code === 1) {
-              _this.$message({
-                type: 'warning',
-                message: '' + data.error_msg + ''
-              });
-            } else {
-              _this.$message({
-                type: 'success',
-                message: '' + data.error_msg + ''
-              });
-              _this .$router.push({path: '/adminTeam'});
-            }
+        var add = '/admin/admingroup/add';
+        var update = '/admin/admingroup/update';
+        this.postFetch(this.$route.name == 'editTeam' ? update : add, obj, function(data){
+          if (data.error_code === 1) {
+            _this.$message({
+              type: 'warning',
+              message: '' + data.error_msg + ''
+            });
+          } else {
+            _this.$message({
+              type: 'success',
+              message: '' + data.error_msg + ''
+            });
+            _this .$router.push({path: '/adminTeam'});
           }
+        })
+      },
+      deleteTeam(){
+        let _this = this;
+        this.$confirm('此操作将永久删除该管理员组, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.postFetch('/admin/admingroup/delete',
+            {id: _this.$route.params.id},
+            function (data) {
+              console.log(data)
+              if (data.error_code === 1) {
+                _this.$message({
+                  type: 'warning',
+                  message: '' + data.error_msg + ''
+                });
+              } else {
+                _this.$message({
+                  type: 'success',
+                  message: '已删除'
+                });
+              }
+            },
+            function (e) {
+              console.log(e)
+            }
+          )
+        }).catch(() => {
         });
       }
     }

@@ -8,23 +8,14 @@
       :data="tableData"
       style="width:90%;margin-top:28px">
       <el-table-column
-        prop="user_name"
-        label="管理员名字"
+        prop="name"
+        label="管理员姓名"
       >
       </el-table-column>
       <el-table-column
         prop="mobile"
         label="管理员手机号"
       >
-      </el-table-column>
-      <el-table-column
-        label="关联商家"
-      >
-
-        <template scope="scope">
-          <span v-if="scope.row.get_business">{{scope.row.get_business.business_name}}</span>
-          <span v-if="!scope.row.get_business">最高管理员</span>
-        </template>
       </el-table-column>
       <el-table-column
         prop="created_at"
@@ -35,11 +26,11 @@
         label="归属管理组"
       >
         <template scope="scope">
-          {{scope.row.get_group.group_name}}
+          {{scope.row.admin_auth.group_name}}
         </template>
       </el-table-column>
       <el-table-column
-        prop="login_name"
+        prop="username"
         label="登录用户名"
       >
       </el-table-column>
@@ -70,16 +61,15 @@
     },
     created() {
       let _this = this;
-      _this.postFetch('/admin/admingroup/list', {}, (data) => {
-        _this.tableData = data.data;
-        console.log(data)
+      _this.postFetch('/admin/adminuser/list', {}, (data) => {
+        _this.tableData = data.data.list;
       })
     },
     methods: {
       oper(s) {
         let _this = this;
-        _this.postFetch('/admin/sys/disableSysAdmin', {
-          admin_id: s.row.id,
+        _this.postFetch('/admin/adminuser/frozen', {
+          id: s.row.id,
           status: (s.row.status == 1) ? 0 : 1
         }, function (data) {
           s.row.status = (s.row.status == 1) ? 0 : 1
@@ -95,8 +85,8 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.postFetch('/admin/sys/deleteAdmin',
-            {admin_id: s.row.id},
+          this.postFetch('/admin/adminuser/delete',
+            {id: s.row.id},
             function (data) {
               if (data.error_code === 1) {
                 _this.$message({

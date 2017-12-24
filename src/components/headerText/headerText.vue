@@ -10,6 +10,7 @@
     <span v-show="routerData == 'addadmin'">添加管理员</span>
     <span v-show="routerData == 'adminTeam'">管理员组</span>
     <span v-show="routerData == 'addTeam'">添加管理组</span>
+    <span v-show="routerData == 'editTeam'">编辑管理组</span>
     <span v-show="routerData == 'hot'">热搜管理</span>
     <span v-show="routerData == 'addHot'">添加热搜</span>
     <span v-show="routerData == 'edition'">版本管理</span>

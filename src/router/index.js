@@ -132,8 +132,13 @@ export default new Router({
       component: adminTeam
     },
     {
-      path: '/addTeam/:id',
+      path: '/addTeam/',
       name: 'addTeam',
+      component: addTeam
+    },
+    {
+      path: '/editTeam/:id',
+      name: 'editTeam',
       component: addTeam
     },
     {

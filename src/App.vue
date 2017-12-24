@@ -152,27 +152,16 @@
             <template slot="title">
               <a class="routerLink">权限管理</a>
             </template>
-            <el-submenu index="7-1">
-              <template slot="title">
-                <router-link class="routerLink"
-                             to="/power">管理员组列表
-                </router-link>
-              </template>
-              <el-submenu index="5-3-1" class="se">
-                <template slot="title" class="se">
-                  <router-link class="routerLink"
-                               to="/addadmin/add" target="_blank">添加管理员
-                  </router-link>
-                </template>
-                <el-menu-item index="5-3-1" class="se">
-                  <template slot="title" class="se">
-                    <router-link class="routerLink"
-                                 to="/addTeam/add" target="_blank">添加管理组
-                    </router-link>
-                  </template>
-                </el-menu-item>
-              </el-submenu>
-            </el-submenu>
+            <el-menu-item index="7-1" v-if="bbgl" class="se">
+              <router-link to="/power" class="routerLink">
+                管理员列表
+              </router-link>
+            </el-menu-item>
+            <el-menu-item index="7-2" v-if="bbgl" class="se">
+              <router-link to="/adminTeam" class="routerLink">
+                管理员组列表
+              </router-link>
+            </el-menu-item>
           </el-submenu>
           <!-- 其他管理 -->
           <el-submenu v-if="qtgl" index="8">

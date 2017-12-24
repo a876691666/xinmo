@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link to="/addTeam/add" target="_blank">
+    <router-link to="/addTeam" target="_blank">
       <el-button type="primary">添加管理组</el-button>
     </router-link>
 
@@ -8,28 +8,20 @@
       :data="tableData"
       style="width:90%;margin-top:28px">
       <el-table-column
-        prop="name"
-        label="管理组名称"
-      >
+        prop="group_name"
+        label="管理组名称">
       </el-table-column>
-      <el-table-column
-        label="创建时间">
-        <template scope="scope">
-          {{scope.row.created_at | formatDate}}
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="状态">
-        <template scope="scope">
-          {{(scope.row.status == 1)?'可用':'停用'}}
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="discription"
-        label="管理组介绍"
 
-      >
+      <el-table-column
+        prop="creat_at"
+        label="创建时间">
       </el-table-column>
+
+      <el-table-column
+        prop="description"
+        label="管理组介绍">
+      </el-table-column>
+
       <el-table-column
         prop="does"
         label="操作"
@@ -48,7 +40,7 @@
   export default{
     filters: {
       formatDate(time) {
-        var date = new Date(time*1000);
+        var date = new Date(time);
         return formatDate(date, 'yyyy-MM-dd hh:mm');
       }
     },
@@ -64,8 +56,8 @@
     },
     created(){
       let _this = this;
-      _this.postFetch('/admin/sys/getAdminGroupList', {}, function (data) {
-        _this.tableData = data.data;
+      _this.postFetch('/admin/admingroup/list', {}, function (data) {
+        _this.tableData = data.data.list;
       })
     },
     methods: {
@@ -76,8 +68,8 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.postFetch('/admin/sys/deleteSysGroup',
-            {group_id: s.row.id},
+          this.postFetch('/admin/admingroup/delete',
+            {id: s.row.id},
             function (data) {
               if (data.error_code === 1) {
                 _this.$message({
@@ -100,7 +92,7 @@
         });
       },
       edit(s){
-        window.open('/#/addTeam/'+s.row.id+'')
+        window.open('/#/editTeam/'+s.row.id+'')
       },
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);

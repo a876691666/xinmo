@@ -12,7 +12,7 @@ export function postFetch(url, data, successCall, eCall) {
     fromData.append(key, data[key])
   }
   console.log(token)
-  fromData.append('token', token);
+  fromData.append('remember_token', token);
   fetch(`http://fudao.sinmore.vip${url}`, {
     method: 'POST',
     mode: 'cors',

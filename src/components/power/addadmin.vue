@@ -8,23 +8,8 @@
         <el-form-item label="管理员手机号">
           <el-input v-model="mobile" style="width:30%"></el-input>
         </el-form-item>
-        <el-form-item label="活动性质">
-          <el-radio class="radio" v-model="ateam" :label="item.id" v-for="(item,index) in adminGroupArr">{{item.name}}</el-radio>
-
-        </el-form-item>
-        <el-form-item label="状态">
-          <el-radio class="radio" v-model="status" :label="1">可用</el-radio>
-          <el-radio class="radio" v-model="status" :label="0">不可用</el-radio>
-        </el-form-item>
-        <el-form-item label="管理商家" >
-          <el-select v-model="state1" filterable placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.id"
-              :label="item.short_name"
-              :value="item.id">
-            </el-option>
-          </el-select>
+        <el-form-item label="归属管理组">
+          <el-radio class="radio" v-model="ateam" :label="item.id" v-for="(item,index) in adminGroupArr">{{item.group_name}}</el-radio>
         </el-form-item>
         <el-form-item label="登录用户名">
           <el-input v-model="login_name" style="width:30%"></el-input>
@@ -47,8 +32,7 @@
     name:"addadmin",
     data(){
       return{
-        pId:this.$route.params.id,
-        id:0,
+        id:this.$route.params.id,
         adminGroupArr:[],
         state1: '',
         user_name:'',
@@ -56,34 +40,21 @@
         ateam:[],
         login_name:'',
         password:'',
-        options:[],
-        status:'',
       }
     },
     created(){
       let _this = this;
-      _this.postFetch('/admin/sys/getAdminGroupList',{},function(data){
-        _this.adminGroupArr = data.data;
-      });
-      _this.postFetch('/api/admin/business/index',{
-        page:1,
-        pagesize:99999
-      },function(data){
-        console.log(data);
-        _this.options = data.data.list;
+      _this.postFetch('/admin/admingroup/list',{},function(data){
+        _this.adminGroupArr = data.data.list;
       });
       if(_this.$route.params.id != 'add'){
-        _this.postFetch('/admin/sys/getAdminDetail',{admin_id:_this.$route.params.id},function(data){
-          console.log(data);
-          _this.id=data.data.id,
-            _this.login_name = data.data.login_name;
-          _this.user_name = data.data.user_name;
-          _this.password =data.data.password;
-          _this.state1 = data.data.business_id;;
-          _this.ateam = data.data.group_id;
-          _this.mobile = data.data.mobile;
-          _this.status = data.data.status;
-//          _this.  = data.data
+        _this.postFetch('/admin/adminuser/detail',{id:_this.$route.params.id},function(data){
+          data = data.data;
+          _this.user_name = data.name
+          _this.mobile = data.mobile
+          _this.login_name = data.username
+          _this.password
+          _this.ateam = data.admin_auth.id;
         })
       }
     },
@@ -95,8 +66,8 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.postFetch('/admin/sys/deleteAdmin',
-            {admin_id: _this.$route.params.id},
+          this.postFetch('/admin/adminuser/delete',
+            {id: _this.$route.params.id},
             function (data) {
               console.log(data)
               if (data.error_code === 1) {
@@ -121,16 +92,17 @@
       save(){
         let _this = this;
         let obj ={
-          id:_this.id,
-          login_name:_this.login_name,
-          user_name:_this.user_name,
-          password:_this.password,
-          business_id:(_this.state1 == '')?0:_this.state1,
-          group_id:_this.ateam,
+          id:_this.$route.params.id,
+          name:_this.user_name,
+          nickname:_this.user_name,
+          username:_this.login_name,
           mobile:_this.mobile,
-          status:_this.status
+          password:_this.password,
+          auth_id:_this.ateam
         }
-        _this.postFetch('/admin/sys/saveSysAdmin',obj,function(data){
+        var update = '/admin/adminuser/update';
+        var add = '/admin/adminuser/add';
+        _this.postFetch(obj.id ? update : add,obj,function(data){
           if (data.error_code === 1) {
             _this.$message({
               type: 'warning',

@@ -1,6 +1,8 @@
 <template>
   <div>
-    <router-link  to="/addadmin/add" target="_blank"> <el-button type="primary">添加管理员</el-button></router-link>
+    <router-link to="/addadmin/add" target="_blank">
+      <el-button type="primary">添加管理员</el-button>
+    </router-link>
 
     <el-table
       :data="tableData"
@@ -58,35 +60,35 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-  export default{
-    name:"power",
+  export default {
+    name: "power",
 
     data() {
       return {
         tableData: []
       }
     },
-    created(){
+    created() {
       let _this = this;
-      _this.postFetch('/admin/sys/getSysAdminList',{},function(data){
+      _this.postFetch('/admin/admingroup/list', {}, (data) => {
         _this.tableData = data.data;
         console.log(data)
       })
     },
     methods: {
-      oper(s){
+      oper(s) {
         let _this = this;
-        _this.postFetch('/admin/sys/disableSysAdmin',{
-          admin_id:s.row.id,
-          status:(s.row.status == 1)?0:1
-        },function(data){
-          s.row.status = (s.row.status == 1)?0:1
+        _this.postFetch('/admin/sys/disableSysAdmin', {
+          admin_id: s.row.id,
+          status: (s.row.status == 1) ? 0 : 1
+        }, function (data) {
+          s.row.status = (s.row.status == 1) ? 0 : 1
         })
       },
-      edit(s){
-        window.open('/#/addadmin/'+s.row.id+'')
+      edit(s) {
+        window.open('/#/addadmin/' + s.row.id + '')
       },
-      delClick(s){
+      delClick(s) {
         let _this = this;
         this.$confirm('此操作将永久删除该管理员, 是否继续?', '提示', {
           confirmButtonText: '确定',

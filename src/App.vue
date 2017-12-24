@@ -37,24 +37,90 @@
           欢迎您！{{userData.user_name}}<a @click="logout">退出登录</a></div>
       </div>
       <div class="sidebar">
-        <div class="logo">共好电商后台</div>
+        <div class="logo">福到出行后台</div>
         <el-menu default-active="2"
                  class="navself el-menu-vertical-demo"
                  @open="handleOpen" @close="handleClose">
-          <el-menu-item index="1" v-if="ddgl" class="se">
-            <template slot="title">
-              <router-link to="/sectionOne/no/no"
-                           class="routerLink">订单管理
-              </router-link>
+          <!-- 订单结算 -->
+          <el-submenu index="1" v-if="ddgl" class="se">
+            <template slot="title" class="se">
+              订单管理
             </template>
-          </el-menu-item>
-          <el-menu-item index="2" v-if="hygl" class="se">
+            <el-submenu index="1-1" class="se">
+              <template slot="title" class="se">
+                <router-link class="routerLink"
+                             to="/manageInfo/no">订单管理
+                </router-link>
+              </template>
+              <el-menu-item index="1-1-1" class="se">
+                <template slot="title" class="se">
+                  <router-link class="routerLink"
+                               to="/manageInfo/no">订单详情
+                  </router-link>
+                </template>
+              </el-menu-item>
+            </el-submenu>
+
+            <el-submenu index="1-2" class="se">
+              <template slot="title" class="se">
+                <router-link class="routerLink"
+                             to="/infoClass">发票管理
+                </router-link>
+              </template>
+              <el-menu-item index="1-2-1" class="se">
+                <template slot="title" class="se">
+                  <router-link class="routerLink"
+                               to="/manageInfo/no">开票详情页
+                  </router-link>
+                </template>
+              </el-menu-item>
+            </el-submenu>
+            <el-submenu index="1-3" class="se">
+              <template slot="title" class="se">
+                <router-link class="routerLink"
+                             to="/adimg">司机工资结算
+                </router-link>
+              </template>
+              <el-menu-item index="1-3-1" class="se">
+                <template slot="title" class="se">
+                  <router-link class="routerLink"
+                               to="/manageInfo/no">工资详情页
+                  </router-link>
+                </template>
+              </el-menu-item>
+            </el-submenu>
+          </el-submenu>
+
+          <!-- 会员管理 -->
+          <el-submenu index="2" v-if="hygl" class="se">
             <template slot="title">
               <router-link to="/vip/no"
                            class="routerLink">会员管理
               </router-link>
             </template>
-          </el-menu-item>
+            <el-menu-item index="2-1" class="se">
+              <template slot="title" class="se">
+                <router-link class="routerLink"
+                             to="/manageInfo/no">乘客会员
+                </router-link>
+              </template>
+            </el-menu-item>
+            <el-submenu index='2-2'>
+              <template slot="title">
+                <router-link to="/vip/no"
+                             class="routerLink">司机会员
+                </router-link>
+              </template>
+              <el-menu-item index="2-2-1" class="se">
+                <template slot="title" class="se">
+                  <router-link class="routerLink"
+                               to="/manageInfo/no">司机会员详情
+                  </router-link>
+                </template>
+              </el-menu-item>
+            </el-submenu>
+          </el-submenu>
+          <!-- 内容管理 -->
           <el-submenu v-if="nrgl" index="5">
             <template slot="title" class="se">
               内容管理
@@ -66,7 +132,6 @@
                 </router-link>
               </template>
             </el-menu-item>
-
             <el-menu-item index="5-2" class="se">
               <template slot="title" class="se">
                 <router-link class="routerLink"
@@ -82,22 +147,34 @@
               </template>
             </el-menu-item>
           </el-submenu>
-
+          <!-- 权限管理 -->
           <el-submenu v-if="qxgl" index="7">
             <template slot="title">
               <a class="routerLink">权限管理</a>
             </template>
-            <el-menu-item index="7-1" class="se">
-              <router-link class="routerLink"
-                           to="/power">权限管理
-              </router-link>
-            </el-menu-item>
-            <el-menu-item index="7-2" class="se">
-              <router-link class="routerLink"
-                           to="/adminTeam">管理员组
-              </router-link>
-            </el-menu-item>
+            <el-submenu index="7-1">
+              <template slot="title">
+                <router-link class="routerLink"
+                             to="/power">管理员组列表
+                </router-link>
+              </template>
+              <el-submenu index="5-3-1" class="se">
+                <template slot="title" class="se">
+                  <router-link class="routerLink"
+                               to="/addadmin/add" target="_blank">添加管理员
+                  </router-link>
+                </template>
+                <el-menu-item index="5-3-1" class="se">
+                  <template slot="title" class="se">
+                    <router-link class="routerLink"
+                                 to="/addTeam/add" target="_blank">添加管理组
+                    </router-link>
+                  </template>
+                </el-menu-item>
+              </el-submenu>
+            </el-submenu>
           </el-submenu>
+          <!-- 其他管理 -->
           <el-submenu v-if="qtgl" index="8">
             <template slot="title">
               其他管理
@@ -137,24 +214,29 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-  import {mapState,mapActions,mapGetters} from 'vuex';
-  function delAllCookie(){
-    var myDate=new Date();
-    myDate.setTime(-1000);//设置时间
-    var data=document.cookie;
-    var dataArray=data.split("; ");
-    for(var i=0;i<dataArray.length;i++){
-      var varName=dataArray[i].split("=");
-      document.cookie=varName[0]+"=''; expires="+myDate.toGMTString();
-    }
+  import {mapState, mapActions, mapGetters} from "vuex";
 
+  function delAllCookie() {
+    var myDate = new Date();
+    myDate.setTime(-1000); //设置时间
+    var data = document.cookie;
+    var dataArray = data.split("; ");
+    for (var i = 0; i < dataArray.length; i++) {
+      var varName = dataArray[i].split("=");
+      document.cookie = varName[0] + "=''; expires=" + myDate.toGMTString();
+    }
   }
+
   function setCookie(c_name, value, expiredays) {
     var exdate = new Date();
     exdate.setDate(exdate.getDate() + expiredays);
-    document.cookie = c_name + "=" + JSON.stringify(value) +
-      ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+    document.cookie =
+      c_name +
+      "=" +
+      JSON.stringify(value) +
+      (expiredays == null ? "" : ";expires=" + exdate.toGMTString());
   }
+
   function getCookie(c_name) {
     if (document.cookie.length > 0) {
       let c_start = document.cookie.indexOf(c_name + "=");
@@ -162,83 +244,88 @@
         c_start = c_start + c_name.length + 1;
         let c_end = document.cookie.indexOf(";", c_start);
         if (c_end == -1) c_end = document.cookie.length;
-        return unescape(document.cookie.substring(c_start, c_end))
+        return unescape(document.cookie.substring(c_start, c_end));
       }
     }
-    return ""
+    return "";
   }
+
   function clearAllCookie() {
     var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
-    if(keys) {
-      for(var i = keys.length; i--;)
-        document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+    if (keys) {
+      for (var i = keys.length; i--;)
+        document.cookie = keys[i] + "=0;expires=" + new Date(0).toUTCString();
     }
   }
-  import Vue from 'vue';
-  import headerText from './components/headerText/headerText.vue'
+
+  import Vue from "vue";
+  import headerText from "./components/headerText/headerText.vue";
+
   export default {
-    name: 'app',
-    data(){
+    name: "app",
+    data() {
       return {
         loginSuccess: false,
-        radio: '1',
-        userName: '',
-        pwd: '',
+        radio: "1",
+        userName: "",
+        pwd: "",
         show: false,
-        ddgl: false,
-        hygl: false,
-        spgl: false,
-        flgl: false,
-        plglsp: false,
-        plglzx: false,
-        nrgl: false,
-        sjgl: false,
-        qxgl: false,
-        rsgl:false,
-        bbgl:false,
-        fwfkbd:false,
-        qdtgl:false,
-        qtgl:true
-      }
+        ddgl: true,
+        hygl: true,
+        spgl: true,
+        flgl: true,
+        plglsp: true,
+        plglzx: true,
+        nrgl: true,
+        sjgl: true,
+        qxgl: true,
+        rsgl: true,
+        bbgl: true,
+        fwfkbd: true,
+        qdtgl: true,
+        qtgl: true
+      };
     },
-    created(){
-      let userCookie = getCookie('userCookie');
+    created() {
+      let userCookie = getCookie("userCookie");
       if (userCookie != null && userCookie != "") {
-        console.log('有缓存');
+        console.log("有缓存");
         this.getUser(userCookie);
         this.show = true;
-        this.getList(JSON.parse(userCookie))
       }
     },
     methods: {
-      login(){
-        if (this.userName == '') {
+      login() {
+        if (this.userName == "") {
           this.$message({
-            type: 'warning',
-            message: '请输入用户名'
+            type: "warning",
+            message: "请输入用户名"
           });
-        } else if (this.pwd == '') {
+        } else if (this.pwd == "") {
           this.$message({
-            type: 'warning',
-            message: '请输入密码'
+            type: "warning",
+            message: "请输入密码"
           });
         } else {
           let _this = this;
-          _this.postFetch('/admin/adminlogin', {
-            loginname: _this.userName,
-            password: _this.pwd
-          }, function (data) {
-            if (data.error_code == 1) {
-              _this.$message({
-                type: 'warning',
-                message: '' + data.error_msg + ''
-              });
-            } else {
-              _this.show = true;
-              setCookie('userCookie', data.data, 1);
-              _this.getList(data.data)
+          _this.postFetch(
+            "/admin/adminLogin",
+            {
+              username: _this.userName,
+              password: _this.pwd
+            },
+            function (data) {
+              if (data.error_code == 1) {
+                _this.$message({
+                  type: "warning",
+                  message: "" + data.error_msg + ""
+                });
+              } else {
+                _this.show = true;
+                setCookie("userCookie", data.data, 1);
+              }
             }
-          })
+          );
         }
       },
       handleOpen(key, keyPath) {
@@ -247,85 +334,23 @@
       handleClose(key, keyPath) {
         console.log(key, keyPath);
       },
-      getList(objs){
-//        let objs = JSON.parse(obj);
+      logout() {
+        clearAllCookie();
+        //
         let _this = this;
-        _this.postFetch('/admin/sys/getSysMenuListByAdmin', {
-          admin_id: objs.id
-        }, function (data) {
-          console.log(data);
-          if(data.error_code == 0){
-            for (let i = 0; i < data.data.length; i++) {
-              switch (data.data[i].menu_name) {
-                case '订单管理':
-                  _this.ddgl = true;
-                  break;
-                case '会员管理':
-                  _this.hygl = true;
-                  break;
-                case '商品管理':
-                  _this.spgl = true;
-                  break;
-                case '分类管理':
-                  _this.flgl = true;
-                  break;
-                case '评价管理-商品':
-                  _this.plglsp = true;
-                  break;
-                case '评价管理-资讯':
-                  _this.plglzx = true;
-                  break;
-                case '内容管理':
-                  _this.nrgl = true;
-                  break;
-                case '商家管理':
-                  _this.sjgl = true;
-                  break;
-                case '权限管理':
-                  _this.qxgl = true;
-                  break;
-                case '热搜管理':
-                  _this.rsgl = true;
-                  break;
-                case '版本管理':
-                  _this.bbgl = true;
-                  break;
-                case '服务反馈表单':
-                  _this.fwfkbd = true;
-                  break;
-                case '启动图管理':
-                  _this.qdtgl = true;
-                  break;
-              }
-            }
-          }else {
-            delAllCookie();
-            window.location.reload()
-          }
-        })
+        _this.postFetch("/admin/adminLogout", {}, function (data) {
+          location.reload();
+        });
       },
-      logout(){
-        clearAllCookie()
-//
-        let _this = this;
-        _this.postFetch('/admin/adminlogout', {
-        }, function (data) {
-          location.reload()
-        })
-      },
-      ...mapActions([
-        'getUser'
-      ])
+      ...mapActions(["getUser"])
     },
     components: {
       headerText
     },
     computed: {
-      ...mapGetters([
-        "userData"
-      ])
+      ...mapGetters(["userData"])
     }
-  }
+  };
 </script>
 <style>
   @import "../static/css/index/index.css";

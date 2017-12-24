@@ -47,7 +47,7 @@
       _this.postFetch('/admin/admingroup/list',{},function(data){
         _this.adminGroupArr = data.data.list;
       });
-      if(_this.$route.params.id != 'add'){
+      if(_this.$route.name == 'editadmin'){
         _this.postFetch('/admin/adminuser/detail',{id:_this.$route.params.id},function(data){
           data = data.data;
           _this.user_name = data.name
@@ -102,7 +102,7 @@
         }
         var update = '/admin/adminuser/update';
         var add = '/admin/adminuser/add';
-        _this.postFetch(obj.id ? update : add,obj,function(data){
+        _this.postFetch(_this.$route.name == 'editadmin' ? update : add,obj,function(data){
           if (data.error_code === 1) {
             _this.$message({
               type: 'warning',

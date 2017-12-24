@@ -76,7 +76,7 @@
         })
       },
       edit(s) {
-        window.open('/#/addadmin/' + s.row.id + '')
+        window.open('/#/editadmin/' + s.row.id + '')
       },
       delClick(s) {
         let _this = this;

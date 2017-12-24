@@ -8,6 +8,7 @@
     <span v-show="routerData == 'sort'">分类管理</span>
     <span v-show="routerData == 'power'">权限管理</span>
     <span v-show="routerData == 'addadmin'">添加管理员</span>
+    <span v-show="routerData == 'editadmin'">编辑管理员</span>
     <span v-show="routerData == 'adminTeam'">管理员组</span>
     <span v-show="routerData == 'addTeam'">添加管理组</span>
     <span v-show="routerData == 'editTeam'">编辑管理组</span>

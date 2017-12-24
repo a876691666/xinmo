@@ -122,8 +122,13 @@ export default new Router({
       component: power
     },
     {
-      path: '/addadmin/:id',
+      path: '/addadmin',
       name: 'addadmin',
+      component: addadmin
+    },
+    {
+      path: '/editadmin/:id',
+      name: 'editadmin',
       component: addadmin
     },
     {

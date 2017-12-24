@@ -12,15 +12,16 @@ export function postFetch(url, data, successCall, eCall) {
     fromData.append(key, data[key])
   }
   console.log(token)
-  fromData.append('token',token);
-  fetch(`http://chenchengonghao.com${url}`, {
+  fromData.append('token', token);
+  fetch(`http://fudao.sinmore.vip${url}`, {
     method: 'POST',
     mode: 'cors',
     body: fromData
   }).then(response => response.json())
-    .then(data =>successCall(data))
+    .then(data => successCall(data))
     .catch(e => console.log(e))
 }
+
 function getCookie(c_name) {
   if (document.cookie.length > 0) {
     let c_start = document.cookie.indexOf(c_name + "=");

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link to="/addadmin/add" target="_blank">
+    <router-link to="/addadmin" target="_blank">
       <el-button type="primary">添加管理员</el-button>
     </router-link>
 

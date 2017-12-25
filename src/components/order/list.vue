@@ -29,35 +29,25 @@
       </el-form-item>
     </el-form>
     <el-table :data="tableData"  stripe   style="width:85%;margin-top:10px">
-      <el-table-column width="170" prop="create_time"  label="订单创建时间"></el-table-column>
-      <!--      <el-table-column label="订单创建时间">
-              <template scope="scope">
-                {{scope.row.create_time | formatDate}}
-              </template>
-            </el-table-column>-->
-      <el-table-column width="220" prop="order_sn"   label="订单编号"></el-table-column>
-      <el-table-column prop="user_name" label="购买用户"></el-table-column>
-      <el-table-column prop="final_total" label="订单金额"></el-table-column>
-      <el-table-column prop="payfor" label="支付方式" ></el-table-column>
-      <el-table-column prop="business_name" label="所属商家" ></el-table-column>
-      <!--      <el-table-column prop="type" label="订单状态" >
-
-            </el-table-column>-->
-      <el-table-column label="订单状态">
-        <template scope="scope">
-          {{stateList[scope.row.type]}}
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        width="100">
+      <el-table-column width="220" label="订单编号">
         <template scope="scope">
           <el-button type="text" size="small"
                      @click="compileClick(tableData[scope.$index])">
-            操作
+            {{scope.row.order_sn}}
           </el-button>
         </template>
       </el-table-column>
+      <el-table-column prop="driver" label="司机姓名"></el-table-column>
+      <el-table-column width="200" prop="create_time"  label="订单创建时间"></el-table-column>
+      <el-table-column width="200" prop="finish_time"  label="订单完成时间"></el-table-column>
+      <el-table-column prop="paytype" label="支付方式" ></el-table-column>
+      <el-table-column label="订单费用">
+        <template scope="scope">
+          ￥{{scope.row.cost}}
+        </template>
+      </el-table-column>
+      <el-table-column prop="is_invoice" label="是否开票" ></el-table-column>
+      <el-table-column prop="status" label="订单状态" ></el-table-column>
     </el-table>
     <div class="block" style="margin-top: 45px;">
       <el-pagination
@@ -76,11 +66,11 @@
     watch:{
       stateOption:function(n,o){
         let _this = this;
-        window.open('/#/sectionOne/state/' + n + '')
+        window.open('/#/orderList/state/' + n + '')
       },
       dateString:function(n,o){
         let _this = this;
-        window.open('/#/sectionOne/date/' + JSON.stringify(n) + '')
+        window.open('/#/orderList/date/' + JSON.stringify(n) + '')
       }
     },
     data() {
@@ -125,33 +115,26 @@
         pageSize:15,
         listState: '',
         kw:'',
-        stateList:['已取消','未支付','待发货','待收货','待评价','已完成','售后处理中','待退款'],
+        stateList:{ "-1":"已取消", "1":"待接单", "2":"司机接单", "3":"行驶中", "4":"到达（未支付）", "5":"乘客已支付" },
         stateOp: [{
-          value: 0,
+          value: -1,
           label: '已取消'
         }, {
           value: 1,
-          label: '未支付'
+          label: '待接单'
         }, {
           value: 2,
-          label: '待发货'
+          label: '司机接单'
         }, {
           value: 3,
-          label: '待收货'
+          label: '行驶中'
         }, {
           value: 4,
-          label: '待评价'
+          label: '到达（未支付）'
         }, {
           value: 5,
-          label: '已完成'
-        }, {
-          value: 6,
-          label: '售后处理中'
-        }, {
-          value: 6,
-          label: '待退款'
-        }
-        ]
+          label: '乘客已支付'
+        }]
       }
     },
     /*    filters: {
@@ -172,28 +155,28 @@
             message: '搜索内容不能为空'
           });
         }else {
-          window.open('/#/sectionOne/search/' + this.kw + '')
+          window.open('/#/orderList/search/' + this.kw + '')
         }
       },
       compileClick(data){
-        window.open('/#/order/' + data.order_id + '')
+        window.open('/#/orderDetail/' + data.order_id + '')
       },
       getData(){
         let _this = this;
         let data;
         data={
-          p:this.page
+
         };
         if (this.$route.params.oper === 'state'){
-          data.type  = this.$route.params.value;
+          data.status  = this.$route.params.value;
         }
         if (this.$route.params.oper === 'search'){
           data.keyword  = this.$route.params.value;
         }
         if (this.$route.params.oper === 'date'){
           let dateArr = JSON.parse(this.$route.params.value);
-          data.create_time  = dateArr[0];
-          data.over_time  = dateArr[1];
+          data.start_time  = dateArr[0];
+          data.end_time  = dateArr[1];
         }
         this.postFetch('/admin/order/list',data,function(data){
           _this.tableData = data.data.list;
@@ -224,5 +207,4 @@
   }
 </script>
 <style>
-  @import "../../../static/css/index/sectionOne.css";
 </style>

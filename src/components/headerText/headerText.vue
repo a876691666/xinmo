@@ -1,6 +1,6 @@
 <template>
   <div style="width: 50%;float: left;color:#aa0000;font-size:20px">
-  <span v-show="routerData == 'sectionOne'">订单管理</span>
+  <span v-show="routerData == 'orderList'">订单管理</span>
     <span v-show="routerData == 'index'">主页</span>
     <span v-show="routerData == 'order'">订单详情</span>
     <span v-show="routerData == 'vipDetail'">会员详情</span>

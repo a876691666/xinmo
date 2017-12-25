@@ -46,49 +46,28 @@
             <template slot="title" class="se">
               订单管理
             </template>
-            <el-submenu index="1-1" class="se">
+            <el-menu-item index="1-1" class="se">
               <template slot="title" class="se">
                 <router-link class="routerLink"
-                             to="/manageInfo/no">订单管理
+                             to="/orderList/no/no">订单管理
                 </router-link>
               </template>
-              <el-menu-item index="1-1-1" class="se">
-                <template slot="title" class="se">
-                  <router-link class="routerLink"
-                               to="/manageInfo/no">订单详情
-                  </router-link>
-                </template>
-              </el-menu-item>
-            </el-submenu>
+            </el-menu-item>
 
-            <el-submenu index="1-2" class="se">
+            <el-menu-item index="1-2" class="se">
               <template slot="title" class="se">
                 <router-link class="routerLink"
-                             to="/infoClass">发票管理
+                             to="/invoiceList/no/no">发票管理
                 </router-link>
               </template>
-              <el-menu-item index="1-2-1" class="se">
-                <template slot="title" class="se">
-                  <router-link class="routerLink"
-                               to="/manageInfo/no">开票详情页
-                  </router-link>
-                </template>
-              </el-menu-item>
-            </el-submenu>
-            <el-submenu index="1-3" class="se">
+            </el-menu-item>
+            <el-menu-item index="1-3" class="se">
               <template slot="title" class="se">
                 <router-link class="routerLink"
                              to="/adimg">司机工资结算
                 </router-link>
               </template>
-              <el-menu-item index="1-3-1" class="se">
-                <template slot="title" class="se">
-                  <router-link class="routerLink"
-                               to="/manageInfo/no">工资详情页
-                  </router-link>
-                </template>
-              </el-menu-item>
-            </el-submenu>
+            </el-menu-item>
           </el-submenu>
 
           <!-- 会员管理 -->

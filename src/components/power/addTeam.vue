@@ -46,12 +46,12 @@
       });
       if (this.$route.name == 'editTeam') {
         _this.postFetch('/admin/admingroup/detail', {
-          group_id: _this.$route.params.id
+          id: _this.$route.params.id
         }, function (data) {
           data = data.data;
           // _this.id = data.id;
           _this.group_name = data.group_name;
-          _this.description = data.data.description;
+          _this.description = data.description;
           _this.authorities = [];
           let authorities = data.authorities.split(',');
           for(var i in authorities) _this.authorities[authorities[i]] = true;
@@ -69,13 +69,13 @@
         let authorities = [];
         for(var i in _this.authorities) if(_this.authorities[i]) authorities.push(i);
         let obj = {
-          id:_this.$route.params.id,
           group_name:_this.group_name,
-          authorities:authorities,
+          authorities:authorities.join(),
           description:_this.description
         };
         var add = '/admin/admingroup/add';
         var update = '/admin/admingroup/update';
+        if(_this.$route.params.id) obj.id = _this.$route.params.id;
         this.postFetch(this.$route.name == 'editTeam' ? update : add, obj, function(data){
           if (data.error_code === 1) {
             _this.$message({

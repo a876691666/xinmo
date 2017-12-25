@@ -5,12 +5,12 @@ import Router from 'vue-router'
 import index from '@/components/index/index'
 
 // 订单管理
-import sectionOne from '@/components/sectionOne/sectionOne'
-// 订单详情-共好代码
-import order from '@/components/order/order'
-import dfh from '@/components/order/dfh'
-import sh from '@/components/order/sh'
-import shxq from '@/components/order/shxq'
+import orderList from '@/components/order/list'
+import orderDetail from '@/components/order/detail'
+
+// 发票管理
+import invoiceList from '@/components/invoice/list'
+import invoiceDetail from '@/components/invoice/detail'
 
 // 会员管理
 import vip from '@/components/vip/vip'
@@ -47,29 +47,24 @@ export default new Router({
       component: index
     },
     {
-      path: '/sectionOne/:oper/:value',
-      name: 'sectionOne',
-      component: sectionOne
+      path: '/orderList/:oper/:value',
+      name: 'orderList',
+      component: orderList
     },
     {
-      path: '/order/:id',
-      name: 'order',
-      component: order
+      path: '/orderDetail/:id',
+      name: 'orderDetail',
+      component: orderDetail
     },
     {
-      path: '/dfh',
-      name: 'dfh',
-      component: dfh
+      path: '/invoiceList/:oper/:value',
+      name: 'invoiceList',
+      component: invoiceList
     },
     {
-      path: '/sh',
-      name: 'sh',
-      component: sh
-    },
-    {
-      path: '/shxq/:id',
-      name: 'shxq',
-      component: shxq
+      path: '/invoiceDetail/:id',
+      name: 'invoiceDetail',
+      component: invoiceDetail
     },
     {
       path: '/vip/:id',

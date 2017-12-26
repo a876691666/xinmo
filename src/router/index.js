@@ -12,6 +12,10 @@ import orderDetail from '@/components/order/detail'
 import invoiceList from '@/components/invoice/list'
 import invoiceDetail from '@/components/invoice/detail'
 
+// 司机工资
+import salaryList from '@/components/salary/list'
+import salaryDetail from '@/components/salary/detail'
+
 // 会员管理
 import vip from '@/components/vip/vip'
 import vipDetail from '@/components/vip/vipDetail'
@@ -65,6 +69,16 @@ export default new Router({
       path: '/invoiceDetail/:id',
       name: 'invoiceDetail',
       component: invoiceDetail
+    },
+    {
+      path: '/salaryList/:oper/:value',
+      name: 'salaryList',
+      component: salaryList
+    },
+    {
+      path: '/salaryDetail/:id',
+      name: 'salaryDetail',
+      component: salaryDetail
     },
     {
       path: '/vip/:id',

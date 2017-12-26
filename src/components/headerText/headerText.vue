@@ -1,8 +1,12 @@
 <template>
   <div style="width: 50%;float: left;color:#aa0000;font-size:20px">
-  <span v-show="routerData == 'orderList'">订单管理</span>
     <span v-show="routerData == 'index'">主页</span>
-    <span v-show="routerData == 'order'">订单详情</span>
+    <span v-show="routerData == 'orderList'">订单管理</span>
+    <span v-show="routerData == 'orderDetail'">订单详情</span>
+    <span v-show="routerData == 'invoiceList'">发票管理</span>
+    <span v-show="routerData == 'invoiceDetail'">发票详情</span>
+    <span v-show="routerData == 'salaryList'">司机工资结算</span>
+    <span v-show="routerData == 'salaryDetail'">工资详情</span>
     <span v-show="routerData == 'vipDetail'">会员详情</span>
     <span v-show="routerData == 'vip'">会员管理</span>
     <span v-show="routerData == 'sort'">分类管理</span>

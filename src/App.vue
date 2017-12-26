@@ -64,7 +64,7 @@
             <el-menu-item index="1-3" class="se">
               <template slot="title" class="se">
                 <router-link class="routerLink"
-                             to="/adimg">司机工资结算
+                             to="/salaryList/no/no">司机工资结算
                 </router-link>
               </template>
             </el-menu-item>

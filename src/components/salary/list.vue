@@ -33,10 +33,13 @@
 
     <el-table :data="tableData"  stripe   style="width:85%;margin-top:10px">
       <el-table-column prop="date" label="工资月份"></el-table-column>
-      <el-table-column width="200" prop="name"  label="司机姓名"></el-table-column>
+      <el-table-column prop="name"  label="司机姓名"></el-table-column>
       <el-table-column label="本次工资金额">
         <template scope="scope">
-          ￥{{scope.row.total}}
+          <el-button type="text" size="small"
+                     @click="compileClick(scope.row)">
+            ￥{{scope.row.total}}
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column label="发放状态" >
@@ -96,6 +99,9 @@
       }
     },
     methods:{
+      compileClick(data){
+        window.open('/#/salaryDetail/' + data.id + '')
+      },
       handleCurrentChange(val) {
         this.page = val;
         this.getData();

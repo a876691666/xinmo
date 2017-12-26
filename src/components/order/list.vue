@@ -165,7 +165,7 @@
         let _this = this;
         let data;
         data={
-
+          page:this.page
         };
         if (this.$route.params.oper === 'state'){
           data.status  = this.$route.params.value;

@@ -5,7 +5,7 @@ export function postFetch(url, data, successCall, eCall) {
   let userCookie = getCookie('userCookie');
   let token = '...000';
   if (userCookie != null && userCookie != "") {
-    token = JSON.parse(userCookie).token
+    token = JSON.parse(userCookie).remember_token
   }
   var fromData = new FormData();
   for (var key in data) {

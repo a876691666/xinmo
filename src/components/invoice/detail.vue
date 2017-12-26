@@ -1,78 +1,102 @@
 <template>
   <div class="order">
     <h1>基本信息</h1>
-    <p>订单当前状态：<span>{{data.status}}</span>
+    <p>开票状态：<span>{{stateList[data.status]}}</span>
     </p>
-    <p>订单号：<span>{{data.order_sn}}</span></p>
-    <p>订单费用：<span>￥{{data.cost}}</span></p>
-    <p>行驶距离：<span>{{data.driving_distance}}</span></p>
-    <p>行驶时长：<span>{{data.driving_time}}</span></p>
-    <p>下单时间：<span>{{data.create_time}}</span></p>
-    <p>完成时间：<span>{{data.finish_time}}</span></p>
-    <p>支付时间：<span>{{data.pay_time}}</span></p>
-    <p>支付方式：<span>{{data.paytype}}</span></p>
-    <p>是否开票：<span>{{data.is_invoice}}</span></p>
-    <p>司机被投诉：<span>{{data.complaint == '0' ? '否' : '是'}}</span></p>
+    <p>申请用户：<span>{{data.passengerinfo.name || data.passengerinfo.nickname}}</span></p>
+    <p>申请开票时间：<span>￥{{data.creat_time}}</span></p>
+    <p>包含订单号：<span>{{data.order | orderListFormat}}</span></p>
 
-    <!-- <h1>出行信息</h1>
-    <p>预约上车地址：<span></span></p>
-    <p>经度：<span></span></p>
-    <p>纬度：<span></span></p>
-    <br />
-    <p>预约下车地址：<span></span></p>
-    <p>经度：<span></span></p>
-    <p>纬度：<span></span></p>
+    <h1>发票信息</h1>
+    <p>开票金额:<span>￥{{data.total}}</span></p>
+    <p>发票抬头:<span>{{data.header}}</span></p>
+    <p>纳税人识别号:<span>{{data.taxpayer_number}}</span></p>
+    <p>收件人：<span>{{data.recipients}}</span></p>
+    <p>联系手机：<span>{{data.mobile}}</span></p>
+    <p>收货地址：<span>{{data.address}}</span></p>
 
-    <h1>出行轨迹</h1>
-    <p></p> -->
+    <h1>开寄送信息</h1>
+    <div v-if="data.status == '0'"">
+      <p style="padding:10px 0;">
+        物流公司：
+        <el-input v-model="carriers" style="width:200px;"></el-input>
+      </p>
+      <p style="padding:10px 0;">
+        物流单号：
+        <el-input v-model="logistics" style="width:200px;"></el-input>
+      </p>
+      <el-button type="primary" @click="kaipiaoConfirm">确认开票</el-button>
+    </div>
 
-    <h1>乘客信息</h1>
-    <p>乘客姓名：<span>{{data.passenger}}</span></p>
-    <p>评分：<span>{{data.passenger_score || '无评分'}}</span></p>
-    <p>标签：<span>{{data.passenger_label | tabFormat}}</span></p>
+    <div v-if="data.status == '1'"">
+      <p>物流公司：<span>{{data.carriers}}</span></p>
+      <p>物流单号：<span>{{data.logistics}}</span></p>
+    </div>
 
-    <h1>司机信息</h1>
-    <p>司机姓名：<span>{{data.driver}}</span></p>
-    <p>评分：<span>{{data.driver_score || '无评分'}}</span></p>
-    <p>标签：<span>{{data.driver_label | tabFormat}}</span></p>
+    <div v-if="data.status == '1'">
+      <h1>操作信息</h1>
+      <p>操作人：<span>{{data.oadmin.adminname}}</span></p>
+      <p>开票时间：<span>{{data.finish_time}}</span></p>
+    </div>
   </div>
 </template>
 <script type="text/ecmascript-6">
   export default{
-    name: "order",
+    name: "invoiceDetail",
     filters:{
       tabFormat(list){
         if(!list) return '无标签';
         var tabList = [];
         for(var i in list) tabList.push(list[i].title);
         return tablist.join(' ');
+      },
+      orderListFormat(list){
+        if(!list) return;
+        var orderList = [];
+        for(var i in list) orderList.push(list[i].order_sn);
+        return orderList.join();
       }
     },
     data() {
       return {
         data:{
-
-        }
+          passengerinfo:{}
+        },
+        stateList:['未开票', '已开票'],
+        carriers:'',
+        logistics:''
       }
     },
     methods: {
-      yikai(){
-        let _this = this;
-        _this.postFetch('/admin/invoice/detail',{
-          inv_id:_this.$route.params.id
-        },function(data){
-          if (data.error_code == 0){
-            _this.getData();
-          }else {
-            _this.$message({
-              type: 'warning',
-              message: '' + data.error_msg + ''
-            });
-          }
-        })
-      },
-      deliver(){
-
+      kaipiaoConfirm(){
+        if (this.carriers == "") {
+          this.$message({
+            type: "warning",
+            message: "请输入物流公司"
+          });
+        } else if (this.logistics == "") {
+          this.$message({
+            type: "warning",
+            message: "请输入物流单号"
+          });
+        } else {
+          let _this = this;
+          _this.postFetch( "/admin/invoice/logistics", {inv_id: this.$route.params.id, carriers: _this.carriers, logistics: _this.logistics },
+            function (data) {
+              if (data.error_code == 1) {
+                _this.$message({
+                  type: "warning",
+                  message: "" + data.error_msg + ""
+                });
+              } else {
+                _this.$message({
+                  type: 'success',
+                  message: '' + data.error_msg + ''
+                });
+              }
+            }
+          );
+        }
       },
       getData(){
         let _this = this;
@@ -85,11 +109,6 @@
         })
       }
     },
-    computed:{
-      wuliuLink(){
-        return `http://www.baidu.com/s?wd=${this.express.freight_code}&cl=3`
-      }
-    },
     created(){
       let _this = this;
       _this.getData();
@@ -100,4 +119,5 @@
   .order h1{
     margin:40px 0 20px;
   }
+  @import "../../../static/css/order/order.css";
 </style>

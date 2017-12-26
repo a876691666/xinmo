@@ -58,7 +58,7 @@
     methods: {
       yikai(){
         let _this = this;
-        _this.postFetch('/admin/orderDetail/detail',{
+        _this.postFetch('/admin/order/detail',{
           order_id:_this.$route.params.id
         },function(data){
           if (data.error_code == 0){
@@ -76,7 +76,7 @@
       },
       getData(){
         let _this = this;
-        this.postFetch('/admin/orderDetail/detail', {
+        this.postFetch('/admin/order/detail', {
           order_id: this.$route.params.id
         }, function (data) {
           data = data.data;
@@ -100,4 +100,5 @@
   .order h1{
     margin:40px 0 20px;
   }
+  @import "../../../static/css/order/order.css";
 </style>

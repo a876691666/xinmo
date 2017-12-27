@@ -17,6 +17,11 @@
                    v-model="userName">
             <input type="password" placeholder="请输入您的登录密码"
                    v-model="pwd">
+            <div class="yzmBox">
+              <input type="text" placeholder="请输入验证码"
+                    v-model="yzm">
+              <canvas id="yzmCanvas" width="90" height="40"></canvas>
+            </div>
             <a class="login-btn" @click="login">登录</a>
           </div>
         </div>
@@ -251,7 +256,8 @@
         bbgl: true,
         fwfkbd: true,
         qdtgl: true,
-        qtgl: true
+        qtgl: true,
+        yzm:''
       };
     },
     created() {
@@ -261,6 +267,63 @@
         this.getUser(userCookie);
         this.show = true;
       }
+    },
+    mounted(){
+      var _this = this;
+      var yzmCanvas=document.getElementById('yzmCanvas');
+      function rand(){
+          var str="abcdefghijklmnopqrstuvwxyz0123456789";
+          var arr=str.split("");
+          var validate="";
+          var ranNum;
+          for(var i=0;i<4;i++){
+              ranNum=Math.floor(Math.random()*36);   //随机数在[0,35]之间
+              validate+=arr[ranNum];
+          }
+          return validate;
+      }
+
+      /*干扰线的随机x坐标值*/
+      function lineX(){
+          var ranLineX=Math.floor(Math.random()*90);
+          return ranLineX;
+      }
+
+      /*干扰线的随机y坐标值*/
+      function lineY(){
+          var ranLineY=Math.floor(Math.random()*40);
+          return ranLineY;
+      }
+
+      function clickChange(){
+          var yzmCanvas=document.getElementById('yzmCanvas');
+          var cxt=yzmCanvas.getContext('2d');
+          cxt.fillStyle='#000';
+          cxt.fillRect(0,0,90,40);
+
+          /*生成干扰线20条*/
+          for(var j=0;j<20;j++){
+              cxt.strokeStyle='#fff';
+              cxt.beginPath();    //若省略beginPath，则每点击一次验证码会累积干扰线的条数
+              cxt.moveTo(lineX(),lineY());
+              cxt.lineTo(lineX(),lineY());
+              cxt.lineWidth=0.5;
+              cxt.closePath();
+              cxt.stroke();
+          }
+
+          cxt.fillStyle='red';
+          cxt.font='bold 20px Arial';
+          cxt.fillText(_this._yzm = rand(),25,25);   //把rand()生成的随机数文本填充到canvas中
+      }
+
+      clickChange();
+
+      /*点击验证码更换*/
+      yzmCanvas.onclick=function(e){
+          e.preventDefault();   //阻止鼠标点击发生默认的行为
+          clickChange();
+      };
     },
     methods: {
       login() {
@@ -273,6 +336,11 @@
           this.$message({
             type: "warning",
             message: "请输入密码"
+          });
+        } else if (this._yzm != this.yzm) {
+          this.$message({
+            type: "warning",
+            message: "验证码错误或未输入"
           });
         } else {
           let _this = this;

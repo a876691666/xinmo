@@ -119,7 +119,7 @@ a:active {
 }
 html {
   -webkit-text-size-adjust: none;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 .routerLink{
   display: block;

@@ -125,7 +125,7 @@ a:active {
  /**{outline:none;-webkit-tap-highlight-color: rgba(0,0,0,0);-webkit-box-sizing:border-box;}*/
 html {
 	-webkit-text-size-adjust: none;
-	overflow-y: scroll;
+	/* overflow-y: scroll; */
 }
 
 html, body {

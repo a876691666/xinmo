@@ -14,7 +14,7 @@
     <p>是否开票：<span>{{data.is_invoice}}</span></p>
     <p>司机被投诉：<span>{{data.complaint == '0' ? '否' : '是'}}</span></p>
 
-    <!-- <h1>出行信息</h1>
+    <h1>出行信息</h1>
     <p>预约上车地址：<span></span></p>
     <p>经度：<span></span></p>
     <p>纬度：<span></span></p>
@@ -24,7 +24,9 @@
     <p>纬度：<span></span></p>
 
     <h1>出行轨迹</h1>
-    <p></p> -->
+    <el-amap vid="amapDemo" :zoom="12" :center="[116.40, 39.90]" class="amap-demo">
+      <el-amap-polyline :path="polyline"></el-amap-polyline>
+    </el-amap>
 
     <h1>乘客信息</h1>
     <p>乘客姓名：<span>{{data.passenger}}</span></p>
@@ -52,7 +54,8 @@
       return {
         data:{
 
-        }
+        },
+        polyline:[]
       }
     },
     methods: {
@@ -93,12 +96,21 @@
     created(){
       let _this = this;
       _this.getData();
+      _this.getFetch('/api/track/getTrack', {
+        order_id:this.$route.params.id
+      }, function (data) {
+
+      })
     }
   }
 </script>
 <style>
   .order h1{
     margin:40px 0 20px;
+  }
+  .el-vue-amap-container.amap-demo {
+      height: 500px;
+      width:500px;
   }
   @import "../../../static/css/order/order.css";
 </style>

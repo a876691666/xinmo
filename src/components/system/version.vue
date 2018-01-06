@@ -2,7 +2,7 @@
  <div>
 <el-form ref="form" :model="form" label-width="120px">
     <el-form-item label="版本管理">
-    <el-input v-model="form.editionNo" style="width:20%"></el-input>
+    <el-input v-model="editionNo" style="width:20%"></el-input>
   </el-form-item>
    <el-form-item>
     <el-button type="primary" @click="save">保存</el-button>
@@ -16,20 +16,18 @@
 
     data() {
       return {
-        form: {
-          editionNo:"4.01",
-        }
+        editionNo:''
       }
     },created(){
       let _this = this;
-      _this.postFetch('/admin/sys/version',{},function(data){
+      _this.postFetch('/admin/system/detail',{},function(data){
         _this.editionNo = data.data.version;
       })
     },
     methods:{
       save(){
         let _this = this;
-        _this.postFetch('/admin/sys/version',{
+        _this.postFetch('/admin/system/update',{
           version:_this.editionNo
         },function(data){
           if (data.error_code === 1) {

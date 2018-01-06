@@ -14,10 +14,28 @@ export function postFetch(url, data, successCall, eCall) {
   console.log(token)
   fromData.append('remember_token', token);
   fetch(`http://fudao.sinmore.vip${url}`, {
-    method: 'POST',
-    mode: 'cors',
-    body: fromData
-  }).then(response => response.json())
+      method: 'POST',
+      mode: 'cors',
+      body: fromData
+    }).then(response => response.json())
+    .then(data => successCall(data))
+    .catch(e => console.log(e))
+}
+
+export function getFetch(url, data, successCall, eCall) {
+  let userCookie = getCookie('userCookie');
+  let token = '...000';
+  if (userCookie != null && userCookie != "") {
+    token = JSON.parse(userCookie).remember_token
+  }
+  var url = `http://fudao.sinmore.vip${url}?`;
+  var l = [];
+  for (var key in data) {
+    l.push([key, data[key]].join('='))
+  }
+  // l.push(['remember_token', token].join('='))
+  url += l.join('&')
+  fetch(url).then(response => response.json())
     .then(data => successCall(data))
     .catch(e => console.log(e))
 }

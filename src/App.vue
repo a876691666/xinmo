@@ -78,31 +78,22 @@
           <!-- 会员管理 -->
           <el-submenu index="2" v-if="hygl" class="se">
             <template slot="title">
-              <router-link to="/vip/no"
-                           class="routerLink">会员管理
-              </router-link>
+              会员管理
             </template>
             <el-menu-item index="2-1" class="se">
               <template slot="title" class="se">
                 <router-link class="routerLink"
-                             to="/manageInfo/no">乘客会员
+                             to="/userList/no/no">乘客会员
                 </router-link>
               </template>
             </el-menu-item>
-            <el-submenu index='2-2'>
-              <template slot="title">
-                <router-link to="/vip/no"
+            <el-menu-item index='2-2' class="se">
+              <template slot="title" class="se">
+                <router-link to="/driverList/no/no"
                              class="routerLink">司机会员
                 </router-link>
               </template>
-              <el-menu-item index="2-2-1" class="se">
-                <template slot="title" class="se">
-                  <router-link class="routerLink"
-                               to="/manageInfo/no">司机会员详情
-                  </router-link>
-                </template>
-              </el-menu-item>
-            </el-submenu>
+            </el-menu-item>
           </el-submenu>
           <!-- 内容管理 -->
           <el-submenu v-if="nrgl" index="5">
@@ -112,21 +103,21 @@
             <el-menu-item index="5-1" class="se">
               <template slot="title" class="se">
                 <router-link class="routerLink"
-                             to="/manageInfo/no">资讯管理
+                             to="/messageList/no/no">资讯管理
                 </router-link>
               </template>
             </el-menu-item>
             <el-menu-item index="5-2" class="se">
               <template slot="title" class="se">
                 <router-link class="routerLink"
-                             to="/infoClass">资讯分类管理
+                             to="/bannerList">广告图管理
                 </router-link>
               </template>
             </el-menu-item>
             <el-menu-item index="5-3-1" class="se">
               <template slot="title" class="se">
                 <router-link class="routerLink"
-                             to="/adimg">广告图片管理
+                             to="/drivercarList">汽车分类管理
                 </router-link>
               </template>
             </el-menu-item>
@@ -152,24 +143,13 @@
             <template slot="title">
               其他管理
             </template>
-            <el-menu-item index="8-1" v-if="bbgl" class="se">
-              <router-link to="/hot" class="routerLink">
-                热搜管理
-              </router-link>
-            </el-menu-item>
             <el-menu-item index="8-2" v-if="bbgl" class="se">
-              <router-link to="/edition" class="routerLink">
+              <router-link to="/version" class="routerLink">
                 版本管理
               </router-link>
             </el-menu-item>
-            <el-menu-item index="8-3" v-if="fwfkbd" class="se">
-              <router-link to="/feedback"
-                           class="routerLink">
-                服务反馈表单
-              </router-link>
-            </el-menu-item>
             <el-menu-item index="8-4" v-if="qdtgl" class="se">
-              <router-link to="/startImg"
+              <router-link to="/bootimg"
                            class="routerLink">
                 启动图管理
               </router-link>
@@ -317,13 +297,15 @@
           cxt.fillText(_this._yzm = rand(),25,25);   //把rand()生成的随机数文本填充到canvas中
       }
 
-      clickChange();
+      if(!this.show) {
+        clickChange();
 
-      /*点击验证码更换*/
-      yzmCanvas.onclick=function(e){
+        /*点击验证码更换*/
+        yzmCanvas.onclick=function(e){
           e.preventDefault();   //阻止鼠标点击发生默认的行为
           clickChange();
-      };
+        };
+      }
     },
     methods: {
       login() {

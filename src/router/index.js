@@ -16,9 +16,24 @@ import invoiceDetail from '@/components/invoice/detail'
 import salaryList from '@/components/salary/list'
 import salaryDetail from '@/components/salary/detail'
 
+// 资讯管理
+import messageList from '@/components/message/list'
+import messageDetail from '@/components/message/detail'
+
+// 广告图管理
+import bannerList from '@/components/banner/list'
+import bannerDetail from '@/components/banner/detail'
+
+// 分类管理
+import drivercarList from '@/components/drivercar/list'
+import drivercarDetail from '@/components/drivercar/detail'
+
 // 会员管理
-import vip from '@/components/vip/vip'
-import vipDetail from '@/components/vip/vipDetail'
+import userList from '@/components/user/list'
+
+// 司机管理
+import driverList from '@/components/driver/list'
+import driverDetail from '@/components/driver/detail'
 
 // 权限管理
 import power from '@/components/power/power'
@@ -27,19 +42,9 @@ import adminTeam from '@/components/power/adminTeam'
 import addTeam from '@/components/power/addTeam'
 
 // 其他管理
-import hot from '@/components/others/hot'
-import addHot from '@/components/others/addHot'
-import edition from '@/components/others/edition'
-import feedback from '@/components/others/feedback'
-import startImg from '@/components/others/startImg'
+import version from '@/components/system/version'
+import bootimg from '@/components/system/bootimg'
 
-// 内容管理
-import manageInfo from '@/components/manageInfo/manageInfo'
-import addConsult from '@/components/manageInfo/addConsult'
-import infoClass from '@/components/manageInfo/infoClass'
-import addClass from '@/components/manageInfo/addClass'
-import adimg from '@/components/manageInfo/adimg'
-import addimg from '@/components/manageInfo/addimg'
 
 Vue.use(Router);
 
@@ -81,50 +86,77 @@ export default new Router({
       component: salaryDetail
     },
     {
-      path: '/vip/:id',
-      name: 'vip',
-      component: vip
+      path: '/userList/:oper/:value',
+      name: 'userList',
+      component: userList
     },
     {
-      path: '/vipDetail/:id',
-      name: 'vipDetail',
-      component: vipDetail
+      path: '/driverList/:oper/:value',
+      name: 'driverList',
+      component: driverList
     },
     {
-      path: '/manageInfo/:id',
-      name: 'manageInfo',
-      component: manageInfo
+      path: '/driverDetail/:id/:type',
+      name: 'driverDetail',
+      component: driverDetail
     },
     {
-      path: '/addConsult/:id',
-      name: 'addConsult',
-      component: addConsult
+      path: '/messageList/:oper/:value',
+      name: 'messageList',
+      component: messageList
     },
     {
-      path: '/infoClass',
-      name: 'infoClass',
-      component: infoClass
+      path: '/messageEdit/:id',
+      name: 'messageEdit',
+      component: messageDetail
     },
     {
-      path: '/addClass/:id',
-      name: 'addClass',
-      component: addClass
+      path: '/messageAdd',
+      name: 'messageAdd',
+      component: messageDetail
+    },
+    {
+      path: '/bannerList',
+      name: 'bannerList',
+      component: bannerList
+    },
+    {
+      path: '/bannerEdit/:id',
+      name: 'bannerEdit',
+      component: bannerDetail
+    },
+    {
+      path: '/bannerAdd',
+      name: 'bannerAdd',
+      component: bannerDetail
+    },
+    {
+      path: '/drivercarList',
+      name: 'drivercarList',
+      component: drivercarList
+    },
+    {
+      path: '/drivercarEdit/:id/:t_id',
+      name: 'drivercarEdit',
+      component: drivercarDetail
+    },
+    {
+      path: '/drivercarAdd',
+      name: 'drivercarAdd',
+      component: drivercarDetail
+    },
+
+     {
+      path: '/version',
+      name: 'version',
+      component: version
     },
      {
-      path: '/hot',
-      name: 'hot',
-      component: hot
+      path: '/bootimg',
+      name: 'bootimg',
+      component: bootimg
     },
-    {
-      path: '/adimg',
-      name: 'adimg',
-      component: adimg
-    },
-    {
-      path: '/addimg/:id',
-      name: 'addimg',
-      component: addimg
-    },
+
     {
       path: '/power',
       name: 'power',
@@ -154,26 +186,6 @@ export default new Router({
       path: '/editTeam/:id',
       name: 'editTeam',
       component: addTeam
-    },
-    {
-      path: '/addHot/:id',
-      name: 'addHot',
-      component: addHot
-    },
-    {
-      path: '/edition',
-      name: 'edition',
-      component: edition
-    },
-    {
-      path: '/feedback',
-      name: 'feedback',
-      component: feedback
-    },
-    {
-      path: '/startImg',
-      name: 'startImg',
-      component: startImg
     },
     {
       path: '*',

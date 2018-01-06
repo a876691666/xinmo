@@ -7,8 +7,12 @@
     <span v-show="routerData == 'invoiceDetail'">发票详情</span>
     <span v-show="routerData == 'salaryList'">司机工资结算</span>
     <span v-show="routerData == 'salaryDetail'">工资详情</span>
-    <span v-show="routerData == 'vipDetail'">会员详情</span>
-    <span v-show="routerData == 'vip'">会员管理</span>
+    <span v-show="routerData == 'userList'">乘客会员列表</span>
+    <span v-show="routerData == 'driverList'">司机会员列表</span>
+    <span v-show="routerData == 'driverDetail'">司机会员详情</span>
+    <span v-show="routerData == 'messageList'">资讯列表</span>
+    <span v-show="routerData == 'messageEdit'">资讯详情</span>
+    <span v-show="routerData == 'messageAdd'">添加资讯</span>
     <span v-show="routerData == 'sort'">分类管理</span>
     <span v-show="routerData == 'power'">权限管理</span>
     <span v-show="routerData == 'addadmin'">添加管理员</span>

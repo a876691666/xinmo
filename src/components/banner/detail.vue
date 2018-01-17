@@ -74,7 +74,7 @@
         var obj = {
           title:this.data.title,
           type:this.data.type,
-          type:this.data.type,
+          link:this.data.link,
           sort:this.data.sort,
         }
         if(filess.files.length) obj.pic = filess.files[0];
@@ -86,7 +86,7 @@
               message: '' + data.error_msg + ''
             });
           } else {
-            window.location.href = '/#/bannerList/no/no';
+            window.location.href = '/#/bannerList';
           }
         })
       },

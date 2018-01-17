@@ -66,9 +66,11 @@
         var obj = {
           brand:this.data.title,
           sort:this.data.sort,
+          b_id:0
         }
-        if(this.data.b_id) obj.b_id=this.data.b_id;
-        else if(this.data.id) obj.b_id=this.data.id;
+        if(this.id) obj.id=this.id;
+        if(this.t_id != 'undefined') obj.t_id=this.t_id;
+        if(this.flag)obj.b_id = this.id;
         this.postFetch(_this.$route.name == 'drivercarEdit' ? update : add, obj, function (data) {
           if (data.error_code === 1) {
             _this.$message({

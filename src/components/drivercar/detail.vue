@@ -68,9 +68,13 @@
           sort:this.data.sort,
           b_id:0
         }
-        if(this.id) obj.id=this.id;
-        if(this.t_id != 'undefined') obj.t_id=this.t_id;
-        if(this.flag)obj.b_id = this.id;
+        if(this.flag2){
+          if(this.id) obj.id=this.id;
+          if(this.t_id != 'undefined') obj.t_id=this.t_id;
+          if(this.flag)obj.b_id = this.id;
+        }else{
+          if(this.data.b_id)obj.b_id = this.data.b_id;
+        }
         this.postFetch(_this.$route.name == 'drivercarEdit' ? update : add, obj, function (data) {
           if (data.error_code === 1) {
             _this.$message({

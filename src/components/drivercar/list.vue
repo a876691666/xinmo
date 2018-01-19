@@ -110,14 +110,12 @@
       drivercarDelete(data, type){
         let _this = this;
         var obj = {};
-        obj.id = data.b_id;
-        obj.t_id = data.t_id;
         this.$confirm('此操作将永久删除这条广告图片, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.postFetch('/admin/drivercar/delete', obj,
+          this.postFetch('/admin/drivercar/delete', data,
             function (data) {
               if (data.error_code === 1) {
                 _this.$message({
@@ -125,7 +123,8 @@
                   message: '' + data.error_msg + ''
                 });
               } else {
-                _this.tableData.splice(s.$index, 1);
+                // _this.tableData.splice(s.$index, 1);
+                window.location.reload();
                 _this.$message({
                   type: 'success',
                   message: '已删除'
